@@ -1,0 +1,54 @@
+<template>
+    <div id="app" class="container">
+        <nav class="navbar navbar-expand-sm bg-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <router-link :to="{ name: 'dashboard' }" class="nav-link">Dashboard</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link :to="{ name: 'business' }" class="nav-link">Businesses</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link :to="{ name: 'feed' }" class="nav-link">Feeds</router-link>
+                </li>
+            </ul>
+        </nav>
+        <transition name="fade">
+            <div class="gap">
+                <router-view></router-view>
+            </div>
+        </transition>
+    </div>
+</template>
+
+<script>
+
+    export default {
+        name: 'app',
+    }
+
+</script>
+
+<style>
+
+    #app {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+        margin-top: 40px;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s
+    }
+
+    .fade-enter, .fade-leave-active {
+        opacity: 0
+    }
+
+    .gap {
+        margin-top: 50px;
+    }
+
+</style>

@@ -1,0 +1,29 @@
+/api/vendor
+/api/.idea
+/api/Homestead.json
+/api/Homestead.yaml
+/api/.env
+
+/spa/.DS_Store
+/spa/node_modules
+/spa//dist
+
+# local env files
+/spa/.env.local
+/spa/.env.*.local
+
+# Log files
+/spa/npm-debug.log*
+/spa/yarn-debug.log*
+/spa/yarn-error.log*
+
+# Editor directories and files
+/spa/.idea
+/spa/.vscode
+/spa/*.suo
+/spa/*.ntvs*
+/spa/*.njsproj
+/spa/*.sln
+/spa/*.sw?
+.DS_Store
+.idea/
