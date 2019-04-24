@@ -16,12 +16,64 @@ Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = 'http://localhost/shopify-simple-api/public/v1';
+Vue.mixin({
+    data: function () {
+        return {
+            auth_user: {},
+            token: '',
+            is_auth: false
+        }
+    },
+
+    created: function() {
+        this.auth_user = JSON.parse(localStorage.getItem('user'));
+        this.is_auth = localStorage.getItem('token') != null;
+        this.token = localStorage.getItem('token');
+
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.token;
+    },
+
+    methods: {
+
+    }
+});
+
+
+/**
+ * Axios configurations
+ */
+axios.defaults.baseURL = 'http://localhost/shop-feed/api/public/v1';
 axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-const api_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzaG9waWZ5LXNpbXBsZS1hcGkiLCJzdWIiOiJuYXJoQGxvZ2luLmNvbSIsImlhdCI6MTU1NjA5OTI2MSwiZXhwIjoxNTU4NjkxMjYxfQ.o0ZQcPrXtz1jNN5-lHiU8zNonjqbaWDDTIgoP0eE8zM';
 
-axios.defaults.headers.common['Authorization'] = 'Bearer '+ api_token;
+/**
+ * Routes navigation guards
+ */
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.auth)) {
+        if (localStorage.getItem('token') == null) {
+            next({
+                path: '/login',
+                params: {nextUrl: to.fullPath}
+            })
+        } else {
+            next()
+        }
+
+    } else if (to.matched.some(record => record.meta.guest)) {
+        if (localStorage.getItem('token') == null) {
+            next()
+        }
+        else {
+            next({name: 'dashboard'})
+        }
+
+    } else {
+        next()
+    }
+
+});
 
 router.beforeResolve((to, from, next) => {
     if (to.name) {
@@ -33,6 +85,7 @@ router.beforeResolve((to, from, next) => {
 router.afterEach(() => {
     NProgress.done()
 });
+
 
 
 new Vue({

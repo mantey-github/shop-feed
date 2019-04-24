@@ -7,7 +7,7 @@
                         <h3>Create a Business</h3>
                     </div>
                     <div class="card-body">
-                        <form  class="form-horizontal" v-on:submit.prevent="createBusiness()">
+                        <form class="form-horizontal" v-on:submit.prevent="createBusiness()">
                             <div class="form-group">
                                 <label for="shop_name">Shop Name:</label>
                                 <input name="shop_name" id="shop_name" type="text"
@@ -38,7 +38,7 @@
     /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
     export default {
-        name: "CreateBusiness",
+        name: "Dashboard",
 
         data: function () {
             return {
@@ -48,11 +48,8 @@
             }
         },
 
-        methods:  {
+        methods: {
             createBusiness: function () {
-
-                console.warn(this.axios.defaults);
-
                 this.axios.post('/shop', {
                     shop_name: this.shop_name,
                     shop_url: this.shop_url,
@@ -60,10 +57,22 @@
 
                 }).then((response) => {
 
-                    console.warn(response.data)
+                    if (response.data.shop) {
+                        alert('Shop added successfully');
+                        this.resetForm();
+                        return;
+                    }
 
+                    alert(response.data.errors);
                 });
             },
+
+            resetForm: function () {
+                this.shop_name = '';
+                this.shop_url = '';
+                this.currency = '';
+
+            }
 
 
         }

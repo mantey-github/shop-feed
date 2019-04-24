@@ -18,8 +18,6 @@ $router->get('/', function () use ($router) {
     ]);
 });
 
-$router->post('create/user', 'UsersController@createUser');
-
 $router->group(['prefix' => 'v1', 'middleware' => 'jwt.auth'], function () use ($router) {
     $router->post('/shop', 'ShopsController@createShop');
     $router->post('/shop/{shop_id}/product', 'ProductsController@createProduct');
@@ -28,6 +26,8 @@ $router->group(['prefix' => 'v1', 'middleware' => 'jwt.auth'], function () use (
 
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->post('create/user', 'UsersController@createUser');
+    $router->get('/shops', 'ShopsController@getShops');
     $router->get('/feeds', 'FeedsController@getFeeds');
     $router->get('/feeds/{feed_id}', 'FeedsController@getFeed');
 });

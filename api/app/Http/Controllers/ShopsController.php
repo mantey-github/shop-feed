@@ -41,6 +41,22 @@ class ShopsController extends Controller
     }
 
 
+    /** Gets all shops
+     * Method: GET
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getShops(Request $request): JsonResponse
+    {
+        $shops = Shop::all();
+
+        return response()->json([
+            'shops' => $shops,
+        ], 200);
+
+    }
+
+
     /** Create a feed for a shop
      * Method: POST
      * @param Request $request

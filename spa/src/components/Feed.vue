@@ -20,27 +20,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><a href="">Get Feed</a></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><a href="">Get Feed</a></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td><a href="">Get Feed</a></td>
-                                </tr>
+                                    <tr v-for="feed in feeds" :key="feed.id">
+                                        <th scope="row">{{ feed.id }}</th>
+                                        <td>{{ feed.product_name }}</td>
+                                        <td>{{ feed.product_brand }}</td>
+                                        <td>{{ feed.product_pricing }}</td>
+                                        <td><a v-bind:href="getFeedUrl(feed.id)" download="">Get Feed</a></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -52,30 +38,32 @@
 </template>
 
 <script>
+    /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
     export default {
         name: "Feed",
 
         data: function () {
             return {
-                feeds: []
+                feeds: [],
             }
         },
 
         mounted: function () {
-            this.getFeeds();
+            this.getFeeds()
         },
 
         methods: {
             getFeeds: function () {
                 this.axios.get('/feeds')
                     .then(response => {
-
-                        console.warn(response.data);
-
-                        // this.users = response.data.users;
+                        this.feeds = response.data.feeds;
                     });
             },
+
+            getFeedUrl: function (id) {
+                return this.axios.defaults.baseURL + '/feeds/' + id;
+            }
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="container">
-        <nav class="navbar navbar-expand-sm bg-light">
+        <nav v-if="this.is_auth" class="navbar navbar-expand-sm bg-light">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <router-link :to="{ name: 'dashboard' }" class="nav-link">Dashboard</router-link>
@@ -11,6 +11,9 @@
                 <li class="nav-item">
                     <router-link :to="{ name: 'feed' }" class="nav-link">Feeds</router-link>
                 </li>
+                <li class="nav-item">
+                    <a v-on:click.stop.prevent="logout()" href="#" class="nav-link">Logout</a>
+                </li>
             </ul>
         </nav>
         <transition name="fade">
@@ -19,12 +22,25 @@
             </div>
         </transition>
     </div>
+
+
 </template>
 
 <script>
+    /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
     export default {
         name: 'app',
+
+        methods: {
+            logout: function () {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+
+                this.$router.go();
+            }
+        }
+
     }
 
 </script>
