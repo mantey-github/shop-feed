@@ -13,6 +13,11 @@ npm install
 npm run serve
 ```
 
+### Compiles and minifies for production
+```
+npm run build
+```
+
 ## Project setup for Backend
 create a ```.env``` file with your database details
 
@@ -21,3 +26,9 @@ Setup database by running the command below
 ```
 php artisan migrate
 ```
+
+Accessing the API Locally
+```
+ http://localhost/shop-feed/api/public/v1
+```
+
